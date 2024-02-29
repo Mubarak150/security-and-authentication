@@ -1,0 +1,42 @@
+<%- include('partials/header') %>
+
+<div class="container flex flex-col justify-center items-center w-1/2">
+  <h1 class="font-semibold text-2xl m-4">Login</h1>
+
+  <div class="">
+    <div class="">
+      <div class="card">
+        <div class="card-body">
+
+          <!-- Makes POST request to /login route -->
+          <form action="/login" method="POST" class="w-full">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" name="username">
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" name="password">
+            </div>
+            <button type="submit" class="btn bg-gray-700 hover:bg-gray-600 text-gray-100 hover:text-gray-100">Login</button>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="col-sm-4">
+      <div class="card">
+        <div class="card-body">
+          <a class="btn btn-block" href="/auth/google" role="button">
+            <i class="fab fa-google"></i>
+            Sign In with Google
+          </a>
+        </div>
+      </div>
+    </div> -->
+
+  </div>
+</div>
+
+<%- include('partials/footer') %>
