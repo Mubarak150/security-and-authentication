@@ -23,3 +23,23 @@ Elevate your security game with the .env file and the dance of .gitignore. It's 
    - Store sensitive information in a secure .env file, shielded from prying eyes.
    
    - Dance with .gitignore to ensure that these secrets stay locked within the confines of your development space.
+
+### iv. HASHING with md5 🌐
+
+Elevate your security game with the hashing:
+
+   - Store sensitive information in a hash format.
+   
+   - But the hash is still easily accessable to the hackers, as it is without any salting.
+
+### v. HASHING with bcrypt or bcryptjs (here i have followed bcryptjs) 🌐
+
+Elevate your security game with the salted hashing:
+
+   - Store sensitive information in a hash format with amalgamated salt.
+
+   - You can salt your data as many times as you want with the same salt generated once. 
+
+   - Thus the store data is not so easy to access by the hackers. 
+
+   - The most reliable way while dealing with your sensitive data
