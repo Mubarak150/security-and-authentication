@@ -6,7 +6,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const _ = require('lodash');
-const encrypt = require('mongoose-encryption');
+const bcrypt = require('bcryptjs');
+const saltRounds = 10;
 
 const app = express();
 const mongoose = require("mongoose");
@@ -31,15 +32,34 @@ const userSchema = new mongoose.Schema ({
     }
 });
 
-
-userSchema.plugin(encrypt, {secret: process.env.SECRET, encryptedFields: ['password']});
-
 const User = new mongoose.model('User', userSchema);
 
 // routes
 app.get('/', (req, res) => {
     res.render('home');
 });
+
+app.route('/register') 
+    .get((req, res) => {
+        res.render('register');
+    })
+
+    .post(async (req, res)=> {
+        bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
+            try{
+                const newUser = new User({
+                    username: req.body.username,
+                    password: hash
+                });
+                newUser.save(); 
+                res.render('secrets');
+            } catch(err) {
+                console.log(err);
+                res.redirect("/register");
+            }
+          });
+        
+    })
 
 app.route('/login') 
     .get((req, res) => {
@@ -58,12 +78,15 @@ app.route('/login')
             });
             
             if(foundUser.matchedCount === 0 || foundUser.matchedCount == ""){
-                console.log('no match found, better register');
                 res.redirect('/login');
             } else {
-                if(foundUser.password === userKey){ // replaceOne.modifiedCount === 0
-                    res.render('secrets');
-                }
+                bcrypt.compare(userKey, foundUser.password, function(err, result) {
+                    if(result === true) {
+                        res.render('secrets');
+                    } else {
+                        res.redirect('/login');
+                    }
+                }); 
             }
             
             
@@ -73,25 +96,11 @@ app.route('/login')
         }
     })
 
+    
+    // const myPlaintextPassword = 's0/\/\P4$$w0rD';
+    
+    
 
-app.route('/register') 
-    .get((req, res) => {
-        res.render('register');
-    })
-
-    .post(async (req, res)=> {
-        try{
-            const newUser = new User({
-                username: req.body.username,
-                password: req.body.password
-            });
-            await newUser.save(); 
-            res.render('secrets');
-        } catch(err) {
-            console.log(err);
-            res.redirect("/register");
-        }
-    })
 
 app.listen(port, () => {
     console.log(`Server is running on A SECRET port ${port}`);
