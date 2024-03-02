@@ -43,3 +43,7 @@ Elevate your security game with the salted hashing:
    - Thus the store data is not so easy to access by the hackers. 
 
    - The most reliable way while dealing with your sensitive data
+
+### vi. O-Auth 2.0 with passport, an example of local sign in and Google🌐
+
+The last PUSH is all about this ... so visit app.js for that and more. ... 
